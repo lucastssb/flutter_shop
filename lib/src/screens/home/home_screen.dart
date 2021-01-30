@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/src/models/Product.dart';
-import 'package:flutter_shop/src/screens/home/widgets/horizontal_product_ietm.dart';
+import 'package:flutter_shop/src/screens/home/widgets/horizontal_product_item.dart';
+import 'package:flutter_shop/src/screens/home/widgets/vertical_product_item.dart';
 
 class HomeScreen extends StatelessWidget {
   final List<Product> products = [
@@ -45,25 +46,56 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Flutter Shop'),
       ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: mediaQuery.size.height * 0.2,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return HorizontalProductItem(products[index]);
-                    },
-                    itemCount: products.length,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: mediaQuery.size.height * 0.2,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return HorizontalProductItem(products[index]);
+                      },
+                      itemCount: products.length,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          );
-        },
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                    child: Text(
+                      'Deals',
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
+                  ),
+                ),
+                SliverGrid(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: 0.7,
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      return Padding(
+                        padding: index % 2 == 0
+                            ? EdgeInsets.only(left: 10)
+                            : EdgeInsets.only(right: 10),
+                        child: VerticalProductItem(products[index]),
+                      );
+                    },
+                    childCount: products.length,
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Shop',
       theme: ThemeData(
-        primaryColor: Colors.purpleAccent,
+        primaryColor: Colors.pink,
         fontFamily: 'Nunito',
         visualDensity: VisualDensity.adaptivePlatformDensity,
         textTheme: ThemeData.light().textTheme.copyWith(
@@ -23,11 +23,16 @@ class MyApp extends StatelessWidget {
                 color: Color.fromRGBO(20, 51, 51, 1),
               ),
               headline1: TextStyle(
+                  fontSize: 24,
+                  fontFamily: 'Nunito',
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+              headline2: TextStyle(
                   fontSize: 18,
                   fontFamily: 'Nunito',
                   color: Colors.black,
                   fontWeight: FontWeight.bold),
-              headline2: TextStyle(
+              headline3: TextStyle(
                 fontSize: 16,
                 fontFamily: 'Nunito',
                 color: Colors.black,

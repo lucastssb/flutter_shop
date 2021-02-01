@@ -44,17 +44,17 @@ class VerticalProductItem extends StatelessWidget {
                     children: [
                       Text(
                         product.title,
-                        style: Theme.of(context).textTheme.headline1,
+                        style: Theme.of(context).textTheme.headline2,
                       ),
                       Text(
                         product.description,
-                        style: Theme.of(context).textTheme.headline2,
+                        style: Theme.of(context).textTheme.headline3,
                       ),
                     ],
                   ),
                   Text(
                     '\$ ${product.price}',
-                    style: Theme.of(context).textTheme.headline1,
+                    style: Theme.of(context).textTheme.headline2,
                   )
                 ],
               ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/src/models/Category.dart';
 
-class HorizontalCategoryItem extends StatelessWidget {
+class CategoryItem extends StatelessWidget {
   final Category category;
 
-  HorizontalCategoryItem(this.category);
+  CategoryItem(this.category);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,14 @@ class HorizontalCategoryItem extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        color: category.color,
+        gradient: LinearGradient(
+          colors: [
+            category.color.withOpacity(0.5),
+            category.color,
+          ],
+          begin: Alignment.bottomRight,
+          end: Alignment.topLeft,
+        ),
       ),
       child: SizedBox(
         width: 300,
@@ -40,17 +47,3 @@ class HorizontalCategoryItem extends StatelessWidget {
     );
   }
 }
-
-/* Column(
-              children: [
-                Text(product.title),
-                Text(product.description),
-                Text('\$ ${product.price}')
-              ],
-            ),
-            Expanded(
-              child: Image.network(
-                product.imageUrl,
-                fit: BoxFit.cover,
-              ),
-            ), */

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/src/models/Product.dart';
-import 'package:flutter_shop/src/screens/product_overview/product_details_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_shop/src/providers/Product.dart';
+import 'package:flutter_shop/src/screens/product_details/product_details_screen.dart';
 
 class ProductItem extends StatelessWidget {
-  final Product product;
-
-  ProductItem(this.product);
-
   @override
   Widget build(BuildContext context) {
+    final product = Provider.of<Product>(context, listen: false);
     return InkWell(
-      onTap: () =>
-          Navigator.of(context).pushNamed(ProductDetailsScreen.routerName),
+      onTap: () => Navigator.of(context).pushNamed(
+        ProductDetailsScreen.routerName,
+        arguments: product.id,
+      ),
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -57,10 +57,33 @@ class ProductItem extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Text(
-                      '\$ ${product.price}',
-                      style: Theme.of(context).textTheme.headline2,
-                    )
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '\$ ${product.price}',
+                          style: Theme.of(context).textTheme.headline2,
+                        ),
+                        Consumer<Product>(
+                          builder: (ctx, product, _) => IconButton(
+                            padding: EdgeInsets.all(0),
+                            onPressed: () {
+                              product.toggleFavoriteStatus();
+                            },
+                            icon: product.isFavorite
+                                ? Icon(
+                                    Icons.favorite,
+                                    size: 28,
+                                    color: Colors.red,
+                                  )
+                                : Icon(
+                                    Icons.favorite_border,
+                                    size: 28,
+                                  ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),

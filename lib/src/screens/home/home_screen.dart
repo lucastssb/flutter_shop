@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/src/models/Category.dart';
+import 'package:flutter_shop/src/screens/favorites/favorites_screen.dart';
 import 'package:flutter_shop/src/screens/home/widgets/categoriesList.dart';
 import 'package:flutter_shop/src/screens/home/widgets/productsList.dart';
 
-class HomeScreen extends StatelessWidget {
-  static const routerName = '/';
-
+class Home extends StatelessWidget {
   final List<Category> categories = [
     Category(
         title: "Cloches",
@@ -26,7 +25,6 @@ class HomeScreen extends StatelessWidget {
         image: "assets/images/laptop.png",
         color: Colors.amber),
   ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,6 +51,50 @@ class HomeScreen extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class HomeScreen extends StatefulWidget {
+  static const routerName = '/';
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  static List<Widget> _screens = [
+    Home(),
+    FavoritesScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'favorites',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Colors.black,
+        onTap: _onItemTapped,
+      ),
+      body: _screens[_selectedIndex],
     );
   }
 }

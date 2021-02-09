@@ -4,10 +4,15 @@ import 'package:flutter_shop/src/providers/Products_provider.dart';
 import 'package:flutter_shop/src/screens/home/widgets/product_item.dart';
 
 class ProductsList extends StatelessWidget {
+  final bool showOnlyFavorites;
+
+  ProductsList({this.showOnlyFavorites = false});
+
   @override
   Widget build(BuildContext context) {
     final productsData = Provider.of<Products>(context);
-    final products = productsData.items;
+    final products =
+        showOnlyFavorites ? productsData.favorites : productsData.items;
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         childAspectRatio: 0.6,
@@ -21,7 +26,10 @@ class ProductsList extends StatelessWidget {
             padding: index % 2 == 0
                 ? const EdgeInsets.only(left: 10)
                 : const EdgeInsets.only(right: 10),
-            child: ProductItem(products[index]),
+            child: ChangeNotifierProvider.value(
+              value: products[index],
+              child: ProductItem(),
+            ),
           );
         },
         childCount: products.length,

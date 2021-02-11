@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_shop/src/providers/Products_provider.dart';
-import 'package:flutter_shop/src/screens/home/widgets/product_item.dart';
+import 'package:flutter_shop/src/screens/home/widgets/productItem.dart';
 
 class ProductsList extends StatelessWidget {
   final bool showOnlyFavorites;
+  final Function onDragItem;
+  final Function onStopDragItem;
 
-  ProductsList({this.showOnlyFavorites = false});
+  ProductsList({
+    this.showOnlyFavorites = false,
+    @required this.onDragItem,
+    @required this.onStopDragItem,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +34,10 @@ class ProductsList extends StatelessWidget {
                 : const EdgeInsets.only(right: 10),
             child: ChangeNotifierProvider.value(
               value: products[index],
-              child: ProductItem(),
+              child: ProductItem(
+                onDragItem: onDragItem,
+                onStopDragItem: onStopDragItem,
+              ),
             ),
           );
         },

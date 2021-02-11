@@ -4,10 +4,18 @@ import 'package:flutter_shop/src/providers/Product.dart';
 import 'package:flutter_shop/src/screens/product_details/product_details_screen.dart';
 
 class ProductItem extends StatelessWidget {
+  final Function onDragItem;
+  final Function onStopDragItem;
+
+  ProductItem({
+    @required this.onDragItem,
+    @required this.onStopDragItem,
+  });
+
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
-    return InkWell(
+    return GestureDetector(
       onTap: () => Navigator.of(context).pushNamed(
         ProductDetailsScreen.routerName,
         arguments: product.id,
@@ -23,16 +31,39 @@ class ProductItem extends StatelessWidget {
           children: [
             Flexible(
               flex: 1,
-              child: Container(
-                width: double.infinity,
-                height: double.infinity,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
+              child: LongPressDraggable(
+                onDragStarted: onDragItem,
+                onDraggableCanceled: (v, o) {
+                  onStopDragItem();
+                },
+                onDragCompleted: onStopDragItem,
+                data: product.id,
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.white),
+                  child: Image.network(
+                    product.imageUrl,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                feedback: Container(
+                  width: 150,
+                  height: 150,
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    color: Colors.white),
-                child: Image.network(
-                  product.imageUrl,
-                  fit: BoxFit.contain,
+                    color: Colors.white,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Image.network(
+                      product.imageUrl,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ),
               ),
             ),

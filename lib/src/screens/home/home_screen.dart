@@ -35,6 +35,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   var isSelected = false;
+  var isLanding = false;
 
   void onDragItem() {
     setState(() {
@@ -92,18 +93,52 @@ class _HomeState extends State<Home> {
                 ],
               ),
               Positioned(
-                bottom: 0,
-                right: 10,
+                bottom: 10,
+                right: 0,
                 child: AnimatedContainer(
-                  width: 100,
-                  height: isSelected ? 200 : 0,
+                  alignment: Alignment.centerLeft,
+                  width: isSelected ? 170 : 0,
+                  height: 150,
                   duration: Duration(milliseconds: 300),
-                  decoration: BoxDecoration(
-                    color: Colors.pink,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                    ),
+                  child: DragTarget<String>(
+                    builder: (context, candidates, rejects) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(
+                              233, 30, 99, isLanding ? 1.0 : 0.9),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        height: double.infinity,
+                        width: 150,
+                        child: Icon(
+                          isLanding
+                              ? Icons.shopping_cart
+                              : Icons.shopping_cart_outlined,
+                          size: 70,
+                          color: Colors.white,
+                        ),
+                      );
+                    },
+                    onMove: (value) {
+                      if (!isLanding) {
+                        setState(() {
+                          isLanding = true;
+                        });
+                      }
+                    },
+                    onAccept: (value) {
+                      setState(() {
+                        isLanding = false;
+                      });
+                    },
+                    onWillAccept: (value) => true,
+                    onLeave: (value) {
+                      if (isLanding) {
+                        setState(() {
+                          isLanding = false;
+                        });
+                      }
+                    },
                   ),
                 ),
               )

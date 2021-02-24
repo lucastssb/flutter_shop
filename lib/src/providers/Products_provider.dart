@@ -37,12 +37,28 @@ class Products with ChangeNotifier {
     ),
   ];
 
+  var _isSelected = false;
+
   List<Product> get items {
     return [..._items];
   }
 
   List<Product> get favorites {
     return _items.where((item) => item.isFavorite).toList();
+  }
+
+  bool get isSelected {
+    return _isSelected;
+  }
+
+  void onDragItem() {
+    _isSelected = true;
+    notifyListeners();
+  }
+
+  void onStopDragItem() {
+    _isSelected = false;
+    notifyListeners();
   }
 
   Product findById(String id) {

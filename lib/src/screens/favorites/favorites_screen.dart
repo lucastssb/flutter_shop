@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/src/screens/home/widgets/productsList.dart';
+import 'package:flutter_shop/src/widgets/productsList.dart';
 
 class FavoritesScreen extends StatefulWidget {
   @override

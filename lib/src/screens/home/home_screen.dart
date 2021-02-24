@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/src/models/Cart_item.dart';
+import 'package:flutter_shop/src/providers/Products_provider.dart';
+import 'package:flutter_shop/src/widgets/productsList.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_shop/src/models/Category.dart';
 import 'package:flutter_shop/src/providers/Cart.dart';
@@ -6,7 +9,6 @@ import 'package:flutter_shop/src/screens/cart/cart_screen.dart';
 import 'package:flutter_shop/src/screens/favorites/favorites_screen.dart';
 import 'package:flutter_shop/src/screens/home/widgets/badge.dart';
 import 'package:flutter_shop/src/screens/home/widgets/categoriesList.dart';
-import 'package:flutter_shop/src/screens/home/widgets/productsList.dart';
 
 class Home extends StatefulWidget {
   final List<Category> categories = [
@@ -49,26 +51,39 @@ class _HomeState extends State<Home> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Flutter Shop'),
-        actions: [
-          Consumer<Cart>(
-            builder: (_, cartData, child) => Badge(
-              child: child,
-              value: cartData.itemCount.toString(),
-            ),
-            child: IconButton(
-              icon: Icon(Icons.shopping_cart),
-              onPressed: () => Navigator.of(context).pushNamed(
-                CartScreen.routerName,
-              ),
+  Widget appBar(BuildContext context) {
+    return AppBar(
+      title: Text('Flutter Shop'),
+      actions: [
+        Consumer<Cart>(
+          builder: (_, cartData, child) => Badge(
+            child: child,
+            value: cartData.itemCount.toString(),
+          ),
+          child: IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () => Navigator.of(context).pushNamed(
+              CartScreen.routerName,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var cart = Provider.of<Cart>(context);
+
+    void draggedHandler(CartItem cartItem) {
+      cart.addItem(cartItem);
+      setState(() {
+        isLanding = false;
+      });
+    }
+
+    return Scaffold(
+      appBar: appBar(context),
       body: LayoutBuilder(
         builder: (context, constraints) {
           return Stack(
@@ -86,21 +101,23 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                  ProductsList(
-                    onDragItem: onDragItem,
-                    onStopDragItem: onStopDragItem,
-                  ),
+                  ProductsList(),
                 ],
               ),
               Positioned(
                 bottom: 10,
                 right: 0,
-                child: AnimatedContainer(
-                  alignment: Alignment.centerLeft,
-                  width: isSelected ? 170 : 0,
-                  height: 150,
-                  duration: Duration(milliseconds: 300),
-                  child: DragTarget<String>(
+                child: Consumer<Products>(
+                  builder: (_, productData, child) {
+                    return AnimatedContainer(
+                      alignment: Alignment.centerLeft,
+                      width: productData.isSelected ? 170 : 0,
+                      height: 150,
+                      duration: Duration(milliseconds: 300),
+                      child: child,
+                    );
+                  },
+                  child: DragTarget<CartItem>(
                     builder: (context, candidates, rejects) {
                       return Container(
                         decoration: BoxDecoration(
@@ -127,9 +144,8 @@ class _HomeState extends State<Home> {
                       }
                     },
                     onAccept: (value) {
-                      setState(() {
-                        isLanding = false;
-                      });
+                      draggedHandler(value);
+                      print(cart.items);
                     },
                     onWillAccept: (value) => true,
                     onLeave: (value) {
@@ -141,7 +157,7 @@ class _HomeState extends State<Home> {
                     },
                   ),
                 ),
-              )
+              ),
             ],
           );
         },

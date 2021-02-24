@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/src/models/Cart_item.dart';
+import 'package:flutter_shop/src/providers/Products_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_shop/src/providers/Product.dart';
 import 'package:flutter_shop/src/screens/product_details/product_details_screen.dart';
 
 class ProductItem extends StatelessWidget {
-  final Function onDragItem;
-  final Function onStopDragItem;
-
-  ProductItem({
-    @required this.onDragItem,
-    @required this.onStopDragItem,
-  });
-
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
+    final productData = Provider.of<Products>(context, listen: false);
     return GestureDetector(
       onTap: () => Navigator.of(context).pushNamed(
         ProductDetailsScreen.routerName,
@@ -31,13 +26,17 @@ class ProductItem extends StatelessWidget {
           children: [
             Flexible(
               flex: 1,
-              child: LongPressDraggable(
-                onDragStarted: onDragItem,
+              child: LongPressDraggable<CartItem>(
+                onDragStarted: productData.onDragItem,
                 onDraggableCanceled: (v, o) {
-                  onStopDragItem();
+                  productData.onStopDragItem();
                 },
-                onDragCompleted: onStopDragItem,
-                data: product.id,
+                onDragCompleted: productData.onStopDragItem,
+                data: CartItem(
+                    id: product.id,
+                    title: product.title,
+                    price: product.price,
+                    quantity: 1),
                 child: Container(
                   width: double.infinity,
                   height: double.infinity,

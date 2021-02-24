@@ -31,10 +31,13 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
           textTheme: ThemeData.light().textTheme.copyWith(
                 bodyText1: TextStyle(
-                  color: Color.fromRGBO(20, 51, 51, 1),
+                  color: Colors.black,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
                 ),
                 bodyText2: TextStyle(
-                  color: Color.fromRGBO(20, 51, 51, 1),
+                  color: Colors.black,
+                  fontSize: 28,
                 ),
                 headline1: TextStyle(
                     fontSize: 24,

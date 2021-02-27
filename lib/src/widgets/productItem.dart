@@ -36,6 +36,7 @@ class ProductItem extends StatelessWidget {
                     id: product.id,
                     title: product.title,
                     price: product.price,
+                    imageUrl: product.imageUrl,
                     quantity: 1),
                 child: Container(
                   width: double.infinity,

@@ -28,6 +28,7 @@ class Cart extends ChangeNotifier {
           id: existingProduct.id,
           price: existingProduct.price,
           title: existingProduct.title,
+          imageUrl: existingProduct.imageUrl,
           quantity: existingProduct.quantity + 1,
         ),
       );
@@ -38,9 +39,15 @@ class Cart extends ChangeNotifier {
             id: DateTime.now().toString(),
             price: cartItem.price,
             title: cartItem.title,
+            imageUrl: cartItem.imageUrl,
             quantity: 1),
       );
     }
+    notifyListeners();
+  }
+
+  void removeItem(String cartItemId) {
+    _items.remove(cartItemId);
     notifyListeners();
   }
 }

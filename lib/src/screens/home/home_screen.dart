@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/src/models/Cart_item.dart';
 import 'package:flutter_shop/src/providers/Products_provider.dart';
+import 'package:flutter_shop/src/screens/home/widgets/homeAppBar.dart';
 import 'package:flutter_shop/src/widgets/productsList.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_shop/src/models/Category.dart';
 import 'package:flutter_shop/src/providers/Cart.dart';
-import 'package:flutter_shop/src/screens/cart/cart_screen.dart';
 import 'package:flutter_shop/src/screens/favorites/favorites_screen.dart';
-import 'package:flutter_shop/src/screens/home/widgets/badge.dart';
 import 'package:flutter_shop/src/screens/home/widgets/categoriesList.dart';
 
 class Home extends StatefulWidget {
@@ -51,26 +50,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Widget appBar(BuildContext context) {
-    return AppBar(
-      title: Text('Flutter Shop'),
-      actions: [
-        Consumer<Cart>(
-          builder: (_, cartData, child) => Badge(
-            child: child,
-            value: cartData.itemCount.toString(),
-          ),
-          child: IconButton(
-            icon: Icon(Icons.shopping_cart),
-            onPressed: () => Navigator.of(context).pushNamed(
-              CartScreen.routerName,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     var cart = Provider.of<Cart>(context);
@@ -83,7 +62,7 @@ class _HomeState extends State<Home> {
     }
 
     return Scaffold(
-      appBar: appBar(context),
+      appBar: HomeAppBar(),
       body: LayoutBuilder(
         builder: (context, constraints) {
           return Stack(

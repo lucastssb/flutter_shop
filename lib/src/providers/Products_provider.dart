@@ -17,7 +17,7 @@ class Products with ChangeNotifier {
       description: 'A nice pair of trousers.',
       price: 59.99,
       imageUrl:
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Trousers%2C_dress_%28AM_1960.022-8%29.jpg/512px-Trousers%2C_dress_%28AM_1960.022-8%29.jpg',
+          'https://lh3.googleusercontent.com/proxy/FE2-c03H1IqXcExADOgUveOAOZTjHNLeTkpWUxGYnutX-OyTeF-OTsHL0davd9BQrhocsCOK0TFhRH6ypUiJVfJxmntPF34AjCpnRi3sXPG3jfAsOk-uMCgVDel4SMUfTTQfAGVJ',
     ),
     Product(
       id: 'p3',
@@ -25,7 +25,7 @@ class Products with ChangeNotifier {
       description: 'Warm and cozy - exactly what you need for the winter.',
       price: 19.99,
       imageUrl:
-          'https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg',
+          'https://www.pngitem.com/pimgs/m/118-1186230_knitted-yellow-scarf-hd-png-download.png',
     ),
     Product(
       id: 'p4',

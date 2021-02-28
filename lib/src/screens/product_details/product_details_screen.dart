@@ -22,10 +22,14 @@ class ProductDetailsScreen extends StatelessWidget {
               child: CustomScrollView(
                 slivers: [
                   SliverAppBar(
+                    iconTheme: IconThemeData(color: Colors.black),
+                    brightness: Brightness.light,
                     expandedHeight: 300,
                     pinned: true,
+                    backgroundColor: Colors.white,
                     flexibleSpace: FlexibleSpaceBar(
-                      title: Text(loadedProduct.title),
+                      title: Text(loadedProduct.title,
+                          style: Theme.of(context).textTheme.bodyText2),
                       background: Image.network(
                         loadedProduct.imageUrl,
                         fit: BoxFit.cover,
